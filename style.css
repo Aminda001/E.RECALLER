@@ -860,3 +860,23 @@ body {
     border-bottom: 1px solid rgba(255,255,255,0.1);
   }
 }
+
+/* Mobile menu - initially hidden */
+.nav-links {
+  display: none;
+}
+
+/* Mobile menu - when shown */
+.nav-links.show {
+  display: block;
+}
+
+/* Desktop menu - always shown */
+@media (min-width: 769px) {
+  .nav-links {
+    display: flex !important;
+  }
+  .menu-toggle {
+    display: none !important;
+  }
+}
