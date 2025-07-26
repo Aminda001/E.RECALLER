@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Tense Practice</title>
+    <style>
+        /* Navbar styles */
+        .navbar {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #3498db;
+        }
+        
+        .nav-links .active {
+            color: #3498db;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .options {
+            margin-top: 10px;
+        }
+        .option {
+            margin: 5px 0;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .answer-info {
+            background-color: #e2e3e5;
+            color: #383d41;
+            border: 1px solid #d6d8db;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .score-display {
+            text-align: right;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .tense-header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 20px 0 10px 0;
+        }
+        .completed {
+            opacity: 0.9;
+            background-color: #f0f0f0;
+        }
+        .user-account {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #e8f4f8;
+            border-radius: 5px;
+        }
+        .user-answer {
+            font-weight: bold;
+        }
+        .correct-answer {
+            font-weight: bold;
+            color: #155724;
+        }
+        .checkmark {
+            color: #28a745;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo">E.RECALLER</div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="tenses.html">Tenses</a>
+            <a href="about.html">About Us</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>English Tense Practice</h1>
+        
+        <div class="score-display">
+            Score: <span id="score">0</span> points
+        </div>
+        
+        <div class="user-account">
+            <h3>Your Progress</h3>
+            <p>Correct answers: <span id="correct-count">0</span></p>
+            <p>Incorrect answers: <span id="incorrect-count">0</span></p>
+            <p>Questions remaining: <span id="remaining-count">100</span></p>
+        </div>
+
+        <div id="questions-container">
+            <!-- Questions will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script>
+        // User account data
+        const userAccount = {
+            score: 0,
+            correctAnswers: 0,
+            incorrectAnswers: 0,
+            answeredQuestions: new Map(), // Stores question index and user's answer
+            questions: []
+        };
+
+        // All questions data
+        const allQuestions = [
+            // Simple Present Tense
+            {
+                tense: "Simple Present Tense",
+                question: "1. She ___ rice every day.",
+                options: ["cook", "cooking", "cooks", "cooked"],
+                answer: 2,
+                answered: false
+            },
+            {
+                tense: "Simple Present Tense",
+                question: "2. They ___ football after school.",
+                options: ["play", "plays", "playing", "played"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Simple Present Tense",
+                question: "3. He always ___ to work by bike.",
+                options: ["go", "goes", "going", "gone"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Simple Present Tense",
+                question: "4. I ___ coffee in the morning.",
+                options: ["drinks", "drinking", "drink", "drank"],
+                answer: 2,
+                answered: false
+            },
+            {
+                tense: "Simple Present Tense",
+                question: "5. The dog ___ loudly at night.",
+                options: ["bark", "barking", "barks", "barked"],
+                answer: 2,
+                answered: false
+            },
+            {
+                tense: "Simple Present Tense",
+                question: "6. My parents ___ in Colombo.",
+                options: ["lives", "living", "live", "lived"],
+                answer: 2,
+                answered: false
+            },
+            {
+                tense: "Simple Present Tense",
+                question: "7. She never ___ late.",
+                options: ["come", "comes", "coming", "came"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Simple Present Tense",
+                question: "8. We ___ English at school.",
+                options: ["studies", "studied", "studying", "study"],
+                answer: 3,
+                answered: false
+            },
+            {
+                tense: "Simple Present Tense",
+                question: "9. It ___ a lot in December.",
+                options: ["rain", "rains", "raining", "rained"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Simple Present Tense",
+                question: "10. You always ___ good ideas.",
+                options: ["have", "has", "having", "had"],
+                answer: 0,
+                answered: false
+            },
+            // Present Continuous Tense
+            {
+                tense: "Present Continuous Tense",
+                question: "1. She ___ dinner now.",
+                options: ["cooks", "is cooking", "cook", "cooked"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Present Continuous Tense",
+                question: "2. They ___ a movie.",
+                options: ["watches", "watch", "are watching", "watching"],
+                answer: 2,
+                answered: false
+            },
+            {
+                tense: "Present Continuous Tense",
+                question: "3. He ___ to school.",
+                options: ["is going", "go", "goes", "gone"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Present Continuous Tense",
+                question: "4. I ___ my homework.",
+                options: ["do", "am doing", "did", "done"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Present Continuous Tense",
+                question: "5. The baby ___ .",
+                options: ["is crying", "cries", "cried", "cry"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Present Continuous Tense",
+                question: "6. We ___ a game.",
+                options: ["plays", "are playing", "played", "playing"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Present Continuous Tense",
+                question: "7. It ___ outside.",
+                options: ["is raining", "rained", "rains", "rain"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Present Continuous Tense",
+                question: "8. You ___ very fast.",
+                options: ["are running", "runs", "run", "running"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Present Continuous Tense",
+                question: "9. My mother ___ tea.",
+                options: ["makes", "is making", "making", "made"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Present Continuous Tense",
+                question: "10. They ___ loudly.",
+                options: ["talk", "talking", "are talking", "talked"],
+                answer: 2,
+                answered: false
+            },
+            // Present Perfect Tense
+            {
+                tense: "Present Perfect Tense",
+                question: "1. She ___ finished her work.",
+                options: ["have", "has", "had", "having"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Present Perfect Tense",
+                question: "2. They ___ completed the task.",
+                options: ["have", "has", "had", "having"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Present Perfect Tense",
+                question: "3. He ___ gone to school.",
+                options: ["has", "have", "had", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Present Perfect Tense",
+                question: "4. I ___ eaten lunch.",
+                options: ["has", "have", "had", "am"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Present Perfect Tense",
+                question: "5. We ___ done our homework.",
+                options: ["has", "have", "had", "doing"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Present Perfect Tense",
+                question: "6. It ___ rained today.",
+                options: ["has", "have", "had", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Present Perfect Tense",
+                question: "7. You ___ made a mistake.",
+                options: ["has", "have", "had", "having"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Present Perfect Tense",
+                question: "8. My brother ___ written a book.",
+                options: ["have", "has", "had", "writing"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Present Perfect Tense",
+                question: "9. They ___ seen that movie.",
+                options: ["has", "have", "had", "saw"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Present Perfect Tense",
+                question: "10. She ___ taken her medicine.",
+                options: ["have", "has", "had", "is"],
+                answer: 1,
+                answered: false
+            },
+            // Present Perfect Continuous Tense
+            {
+                tense: "Present Perfect Continuous Tense",
+                question: "1. She ___ been working all day.",
+                options: ["have", "has", "had", "is"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Present Perfect Continuous Tense",
+                question: "2. They ___ been studying since morning.",
+                options: ["has", "have", "had", "is"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Present Perfect Continuous Tense",
+                question: "3. I ___ been reading this book.",
+                options: ["has", "have", "had", "am"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Present Perfect Continuous Tense",
+                question: "4. He ___ been playing football.",
+                options: ["has", "have", "had", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Present Perfect Continuous Tense",
+                question: "5. We ___ been watching a movie.",
+                options: ["has", "have", "had", "are"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Present Perfect Continuous Tense",
+                question: "6. The children ___ been sleeping.",
+                options: ["has", "have", "had", "is"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Present Perfect Continuous Tense",
+                question: "7. It ___ been raining for hours.",
+                options: ["has", "have", "had", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Present Perfect Continuous Tense",
+                question: "8. You ___ been cooking dinner.",
+                options: ["have", "has", "had", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Present Perfect Continuous Tense",
+                question: "9. My father ___ been working hard.",
+                options: ["has", "have", "had", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Present Perfect Continuous Tense",
+                question: "10. They ___ been waiting for you.",
+                options: ["has", "have", "had", "is"],
+                answer: 1,
+                answered: false
+            },
+            // Simple Past Tense
+            {
+                tense: "Simple Past Tense",
+                question: "1. She ___ to the market.",
+                options: ["go", "went", "gone", "goes"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Simple Past Tense",
+                question: "2. They ___ football yesterday.",
+                options: ["play", "played", "playing", "plays"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Simple Past Tense",
+                question: "3. He ___ late to school.",
+                options: ["was", "were", "is", "be"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Simple Past Tense",
+                question: "4. I ___ my homework.",
+                options: ["do", "did", "done", "doing"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Simple Past Tense",
+                question: "5. We ___ a new movie.",
+                options: ["watch", "watched", "watching", "watches"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Simple Past Tense",
+                question: "6. The baby ___ all night.",
+                options: ["cry", "cried", "crying", "cries"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Simple Past Tense",
+                question: "7. You ___ the window.",
+                options: ["break", "broke", "broken", "breaks"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Simple Past Tense",
+                question: "8. My mother ___ dinner.",
+                options: ["cook", "cooked", "cooking", "cooks"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Simple Past Tense",
+                question: "9. They ___ happy yesterday.",
+                options: ["was", "were", "are", "be"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Simple Past Tense",
+                question: "10. It ___ suddenly.",
+                options: ["rain", "rains", "rained", "raining"],
+                answer: 2,
+                answered: false
+            },
+            // Past Continuous Tense
+            {
+                tense: "Past Continuous Tense",
+                question: "1. She ___ TV at 8 PM.",
+                options: ["was watching", "were watching", "watched", "watches"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Continuous Tense",
+                question: "2. They ___ when I arrived.",
+                options: ["were eating", "was eating", "eating", "eat"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Continuous Tense",
+                question: "3. He ___ a story.",
+                options: ["was telling", "were telling", "told", "tells"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Continuous Tense",
+                question: "4. I ___ home.",
+                options: ["was walking", "were walking", "walked", "walking"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Continuous Tense",
+                question: "5. We ___ cricket.",
+                options: ["were playing", "was playing", "played", "play"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Continuous Tense",
+                question: "6. It ___ at 9 PM.",
+                options: ["was raining", "were raining", "rained", "rains"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Continuous Tense",
+                question: "7. You ___ loudly.",
+                options: ["were talking", "was talking", "talked", "talks"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Continuous Tense",
+                question: "8. The cat ___ under the bed.",
+                options: ["was hiding", "were hiding", "hid", "hides"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Continuous Tense",
+                question: "9. My friends ___ jokes.",
+                options: ["were telling", "was telling", "told", "tells"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Continuous Tense",
+                question: "10. She ___ the dishes.",
+                options: ["was washing", "were washing", "washed", "washes"],
+                answer: 0,
+                answered: false
+            },
+            // Past Perfect Tense
+            {
+                tense: "Past Perfect Tense",
+                question: "1. She ___ finished her work before 6.",
+                options: ["had", "has", "have", "having"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Perfect Tense",
+                question: "2. They ___ gone when we arrived.",
+                options: ["had", "has", "have", "gone"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Perfect Tense",
+                question: "3. He ___ eaten before coming.",
+                options: ["had", "has", "have", "eat"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Perfect Tense",
+                question: "4. I ___ read the book.",
+                options: ["had", "has", "have", "reading"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Perfect Tense",
+                question: "5. We ___ cleaned the room.",
+                options: ["had", "has", "have", "clean"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Perfect Tense",
+                question: "6. It ___ stopped raining.",
+                options: ["had", "has", "have", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Perfect Tense",
+                question: "7. You ___ left early.",
+                options: ["had", "has", "have", "leaving"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Perfect Tense",
+                question: "8. My mother ___ cooked dinner.",
+                options: ["had", "has", "have", "cooking"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Perfect Tense",
+                question: "9. They ___ reached the station.",
+                options: ["had", "has", "have", "reaching"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Perfect Tense",
+                question: "10. She ___ done her homework.",
+                options: ["had", "has", "have", "doing"],
+                answer: 0,
+                answered: false
+            },
+            // Past Perfect Continuous Tense
+            {
+                tense: "Past Perfect Continuous Tense",
+                question: "1. She ___ been crying for hours.",
+                options: ["had", "has", "have", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Perfect Continuous Tense",
+                question: "2. They ___ been playing all day.",
+                options: ["had", "has", "have", "are"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Perfect Continuous Tense",
+                question: "3. I ___ been working since morning.",
+                options: ["had", "has", "have", "am"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Perfect Continuous Tense",
+                question: "4. He ___ been studying hard.",
+                options: ["had", "has", "have", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Perfect Continuous Tense",
+                question: "5. We ___ been waiting for you.",
+                options: ["had", "has", "have", "are"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Perfect Continuous Tense",
+                question: "6. You ___ been singing well.",
+                options: ["had", "has", "have", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Perfect Continuous Tense",
+                question: "7. It ___ been raining.",
+                options: ["had", "has", "have", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Perfect Continuous Tense",
+                question: "8. My sister ___ been reading books.",
+                options: ["had", "has", "have", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Perfect Continuous Tense",
+                question: "9. They ___ been fighting.",
+                options: ["had", "has", "have", "are"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Past Perfect Continuous Tense",
+                question: "10. She ___ been teaching since 2010.",
+                options: ["had", "has", "have", "is"],
+                answer: 0,
+                answered: false
+            },
+            // Simple Future Tense
+            {
+                tense: "Simple Future Tense",
+                question: "1. She ___ go to school tomorrow.",
+                options: ["will", "shall", "is", "was"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Simple Future Tense",
+                question: "2. They ___ visit us soon.",
+                options: ["will", "shall", "is", "are"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Simple Future Tense",
+                question: "3. He ___ come back later.",
+                options: ["will", "shall", "is", "be"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Simple Future Tense",
+                question: "4. I ___ call you later.",
+                options: ["will", "shall", "am", "be"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Simple Future Tense",
+                question: "5. We ___ travel next week.",
+                options: ["will", "shall", "are", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Simple Future Tense",
+                question: "6. You ___ see the movie.",
+                options: ["will", "shall", "is", "are"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Simple Future Tense",
+                question: "7. It ___ rain tomorrow.",
+                options: ["will", "shall", "is", "be"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Simple Future Tense",
+                question: "8. My father ___ arrive soon.",
+                options: ["will", "shall", "is", "are"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Simple Future Tense",
+                question: "9. They ___ meet you at 6.",
+                options: ["will", "shall", "is", "are"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Simple Future Tense",
+                question: "10. She ___ help me.",
+                options: ["will", "shall", "is", "are"],
+                answer: 0,
+                answered: false
+            },
+            // Future Continuous Tense
+            {
+                tense: "Future Continuous Tense",
+                question: "1. She ___ be reading at 5 PM.",
+                options: ["will", "will be", "shall", "is"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Future Continuous Tense",
+                question: "2. They ___ be watching a movie.",
+                options: ["will be", "will", "are", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Continuous Tense",
+                question: "3. He ___ be sleeping.",
+                options: ["will be", "shall be", "is", "are"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Continuous Tense",
+                question: "4. I ___ be working.",
+                options: ["will be", "shall", "am", "are"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Continuous Tense",
+                question: "5. We ___ be playing cricket.",
+                options: ["will be", "shall", "are", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Continuous Tense",
+                question: "6. You ___ be traveling tomorrow.",
+                options: ["will be", "shall", "are", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Continuous Tense",
+                question: "7. It ___ be raining.",
+                options: ["will be", "shall", "is", "be"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Continuous Tense",
+                question: "8. My mother ___ be cooking.",
+                options: ["will be", "shall", "is", "are"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Continuous Tense",
+                question: "9. They ___ be coming soon.",
+                options: ["will be", "shall", "are", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Continuous Tense",
+                question: "10. She ___ be waiting for us.",
+                options: ["will be", "shall", "is", "are"],
+                answer: 0,
+                answered: false
+            },
+            // Future Perfect Tense
+            {
+                tense: "Future Perfect Tense",
+                question: "1. She ___ finished her work.",
+                options: ["will", "will have", "shall", "is"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Future Perfect Tense",
+                question: "2. They ___  left by then.",
+                options: ["will have", "will", "are", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Perfect Tense",
+                question: "3. He ___  gone home.",
+                options: ["will have", "will", "is", "are"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Perfect Tense",
+                question: "4. I ___ have done it.",
+                options: ["will have", "will", "am", "is"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Future Perfect Tense",
+                question: "5. We ___  completed the task.",
+                options: ["will have", "will", "are", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Perfect Tense",
+                question: "6. You ___ have seen it.",
+                options: ["will have ", "will", "is", "are"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Future Perfect Tense",
+                question: "7. It ___  stopped raining.",
+                options: ["will have", "will", "is", "be"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Perfect Tense",
+                question: "8. My brother ___  left.",
+                options: ["will have", "will", "is", "are"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Perfect Tense",
+                question: "9. They ___  arrived.",
+                options: ["will have", "will", "is", "are"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Perfect Tense",
+                question: "10. She ___  written the letter.",
+                options: ["will have", "will", "is", "are"],
+                answer: 0,
+                answered: false
+            },
+            // Future Perfect Continuous Tense
+            {
+                tense: "Future Perfect Continuous Tense",
+                question: "1. She ___ have been working.",
+                options: ["will", "will have been", "shall", "is"],
+                answer: 1,
+                answered: false
+            },
+            {
+                tense: "Future Perfect Continuous Tense",
+                question: "2. They ___ have been waiting.",
+                options: ["will have been", "will", "are", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Perfect Continuous Tense",
+                question: "3. He ___ have been reading.",
+                options: ["will have been", "will", "is", "are"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Perfect Continuous Tense",
+                question: "4. I ___ have been writing.",
+                options: ["will have been", "will", "am", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Perfect Continuous Tense",
+                question: "5. We ___ have been talking.",
+                options: ["will have been", "will", "are", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Perfect Continuous Tense",
+                question: "6. You ___ have been sleeping.",
+                options: ["will have been", "will", "are", "is"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Perfect Continuous Tense",
+                question: "7. It ___ have been raining.",
+                options: ["will have been", "will", "is", "be"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Perfect Continuous Tense",
+                question: "8. My friend ___ have been practicing.",
+                options: ["will have been", "will", "is", "are"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Perfect Continuous Tense",
+                question: "9. They ___ have been traveling.",
+                options: ["will have been", "will", "is", "are"],
+                answer: 0,
+                answered: false
+            },
+            {
+                tense: "Future Perfect Continuous Tense",
+                question: "10. She ___ have been waiting.",
+                options: ["will have been", "will", "is", "are"],
+                answer: 0,
+                answered: false
+            }
+        ];
+
+        // Save user progress to localStorage
+        function saveProgress() {
+            const progress = {
+                score: userAccount.score,
+                correctAnswers: userAccount.correctAnswers,
+                incorrectAnswers: userAccount.incorrectAnswers,
+                answeredQuestions: Array.from(userAccount.answeredQuestions.entries())
+            };
+            localStorage.setItem('tensePracticeProgress', JSON.stringify(progress));
+            
+            // Save which questions are answered
+            const answeredQuestions = allQuestions.map(q => q.answered);
+            localStorage.setItem('answeredQuestions', JSON.stringify(answeredQuestions));
+        }
+
+        // Load user progress from localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('tensePracticeProgress');
+            if (savedProgress) {
+                const progress = JSON.parse(savedProgress);
+                userAccount.score = progress.score;
+                userAccount.correctAnswers = progress.correctAnswers;
+                userAccount.incorrectAnswers = progress.incorrectAnswers;
+                userAccount.answeredQuestions = new Map(progress.answeredQuestions);
+            }
+            
+            // Load which questions are answered
+            const savedAnswered = localStorage.getItem('answeredQuestions');
+            if (savedAnswered) {
+                const answered = JSON.parse(savedAnswered);
+                allQuestions.forEach((q, index) => {
+                    q.answered = answered[index] || false;
+                });
+            }
+        }
+
+        // Initialize the app
+        function init() {
+            loadProgress(); // Load saved progress
+            userAccount.questions = [...allQuestions];
+            displayQuestions();
+            updateUserAccountDisplay();
+        }
+
+        // Check if the selected answer is correct
+        function checkAnswer(questionIndex) {
+            const question = allQuestions[questionIndex];
+            const selectedOption = document.querySelector(`input[name="question-${questionIndex}"]:checked`);
+            
+            if (!selectedOption) {
+                alert('Please select an answer!');
+                return;
+            }
+            
+            const selectedAnswer = parseInt(selectedOption.value);
+            userAccount.answeredQuestions.set(questionIndex, selectedAnswer);
+            
+            if (selectedAnswer === question.answer) {
+                userAccount.score += 2;
+                userAccount.correctAnswers++;
+            } else {
+                userAccount.incorrectAnswers++;
+            }
+            
+            // Mark question as answered
+            question.answered = true;
+            
+            updateUserAccountDisplay();
+            displayQuestions(); // Refresh the display to show results
+            saveProgress(); // Save progress after each answer
+        }
+
+       // Initialize the app
+        function init() {
+            userAccount.questions = [...allQuestions];
+            displayQuestions();
+            updateUserAccountDisplay();
+        }
+
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all your progress? This cannot be undone.')) {
+                localStorage.removeItem('tensePracticeProgress');
+                localStorage.removeItem('answeredQuestions');
+                location.reload(); // Refresh the page to reset everything
+            }
+        }
+        
+        // Display questions on the page
+        function displayQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            
+            // Group questions by tense
+            const questionsByTense = {};
+            userAccount.questions.forEach(q => {
+                if (!questionsByTense[q.tense]) {
+                    questionsByTense[q.tense] = [];
+                }
+                questionsByTense[q.tense].push(q);
+            });
+            
+            // Display questions for each tense
+            for (const tense in questionsByTense) {
+                const tenseHeader = document.createElement('div');
+                tenseHeader.className = 'tense-header';
+                tenseHeader.textContent = tense;
+                container.appendChild(tenseHeader);
+                
+                questionsByTense[tense].forEach((q, index) => {
+                    const questionIndex = allQuestions.indexOf(q);
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question';
+                    if (q.answered) {
+                        questionDiv.classList.add('completed');
+                    }
+                    questionDiv.dataset.index = questionIndex;
+                    
+                    const questionText = document.createElement('p');
+                    questionText.textContent = q.question;
+                    questionDiv.appendChild(questionText);
+                    
+                    const optionsDiv = document.createElement('div');
+                    optionsDiv.className = 'options';
+                    
+                    q.options.forEach((option, i) => {
+                        const optionDiv = document.createElement('div');
+                        optionDiv.className = 'option';
+                        
+                        const radio = document.createElement('input');
+                        radio.type = 'radio';
+                        radio.name = `question-${questionIndex}`;
+                        radio.value = i;
+                        radio.id = `question-${questionIndex}-option-${i}`;
+                        radio.disabled = q.answered;
+                        
+                        // Check if this option was the user's answer
+                        if (userAccount.answeredQuestions.has(questionIndex)) {
+                            radio.checked = (userAccount.answeredQuestions.get(questionIndex)) === i;
+                        }
+                        
+                        const label = document.createElement('label');
+                        label.htmlFor = `question-${questionIndex}-option-${i}`;
+                        label.textContent = option;
+                        
+                        // Add checkmark if this is the correct answer and question was answered
+                        if (q.answered && i === q.answer) {
+                            const checkmark = document.createElement('span');
+                            checkmark.className = 'checkmark';
+                            checkmark.textContent = '✓';
+                            label.appendChild(checkmark);
+                        }
+                        
+                        optionDiv.appendChild(radio);
+                        optionDiv.appendChild(label);
+                        optionsDiv.appendChild(optionDiv);
+                    });
+                    
+                    questionDiv.appendChild(optionsDiv);
+                    
+                    if (!q.answered) {
+                        const submitBtn = document.createElement('button');
+                        submitBtn.textContent = 'Submit Answer';
+                        submitBtn.addEventListener('click', () => checkAnswer(questionIndex));
+                        questionDiv.appendChild(submitBtn);
+                    } else {
+                        // Show feedback for answered questions
+                        const feedbackDiv = document.createElement('div');
+                        feedbackDiv.className = 'feedback';
+                        
+                        const userAnswerIndex = userAccount.answeredQuestions.get(questionIndex);
+                        const userAnswer = q.options[userAnswerIndex];
+                        const correctAnswer = q.options[q.answer];
+                        
+                        if (userAnswerIndex === q.answer) {
+                            feedbackDiv.textContent = 'Correct! +2 points';
+                            feedbackDiv.style.color = '#28a745';
+                        } else {
+                            feedbackDiv.innerHTML = `Incorrect. Correct answer: <span class="correct-answer">${correctAnswer}</span>`;
+                            feedbackDiv.style.color = '#dc3545';
+                        }
+                        
+                        questionDiv.appendChild(feedbackDiv);
+                    }
+                    
+                    container.appendChild(questionDiv);
+                });
+            }
+        }
+
+        // Check if the selected answer is correct
+        function checkAnswer(questionIndex) {
+            const question = allQuestions[questionIndex];
+            const selectedOption = document.querySelector(`input[name="question-${questionIndex}"]:checked`);
+            
+            if (!selectedOption) {
+                alert('Please select an answer!');
+                return;
+            }
+            
+            const selectedAnswer = parseInt(selectedOption.value);
+            userAccount.answeredQuestions.set(questionIndex, selectedAnswer);
+            
+            if (selectedAnswer === question.answer) {
+                userAccount.score += 2;
+                userAccount.correctAnswers++;
+            } else {
+                userAccount.incorrectAnswers++;
+            }
+            
+            // Mark question as answered
+            question.answered = true;
+            
+            updateUserAccountDisplay();
+            displayQuestions(); // Refresh the display to show results
+        }
+
+        // Update the user account display
+        function updateUserAccountDisplay() {
+            document.getElementById('score').textContent = userAccount.score;
+            document.getElementById('correct-count').textContent = userAccount.correctAnswers;
+            document.getElementById('incorrect-count').textContent = userAccount.incorrectAnswers;
+            document.getElementById('remaining-count').textContent = allQuestions.length - userAccount.answeredQuestions.size;
+        }
+
+        // Initialize the app when the page loads
+        window.onload = init;
+    </script>
+</body>
+</html>

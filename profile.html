@@ -1,0 +1,85 @@
+<!-- profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile - E.RECALLER</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="profile-page">
+  <header class="navbar">
+    <div class="logo">E.RECALLER</div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="#" onclick="logout()">Log Out</a>
+    </nav>
+  </header>
+
+  <section class="profile-container">
+    <div class="profile-box">
+      <h2>Your Profile</h2>
+      
+      <div class="profile-info">
+        <div class="profile-picture-container">
+          <div class="picture-wrapper">
+            <img id="profile-picture" src="" alt="Profile Picture" class="profile-picture">
+            <div class="upload-overlay">
+              <span>Change Photo</span>
+              <input type="file" id="picture-upload" accept="image/*">
+            </div>
+          </div>
+        </div>
+        
+        <div class="profile-details">
+          <div class="form-group">
+            <label>Name:</label>
+            <input type="text" id="profile-name" class="profile-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label>Mobile:</label>
+            <div class="profile-field" id="profile-mobile">Loading...</div>
+          </div>
+          
+          <div class="form-group">
+            <label>Birthday:</label>
+            <input type="date" id="profile-birthday" class="profile-input">
+          </div>
+          
+          <div class="form-group">
+            <label>Gender:</label>
+            <select id="profile-gender" class="profile-input">
+              <option value="">Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+              <option value="Prefer not to say">Prefer not to say</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label>Country:</label>
+            <input type="text" id="profile-country" class="profile-input" placeholder="Enter your country">
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-actions">
+        <button class="profile-btn" onclick="updateProfile()">
+          <i class="fas fa-save"></i> Save Changes
+        </button>
+        <button class="profile-btn danger" onclick="confirmDelete()">
+          <i class="fas fa-trash-alt"></i> Delete Account
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  
+  <script src="profile.js"></script>
+</body>
+</html>
