@@ -104,10 +104,15 @@
         </div>
       </section>
 
-      <script src="auth-check.js"></script>
+      <script src="auth-check.js">
+         if(localStorage.getItem('currentUser')) {
+        document.write('<a href="#" onclick="logout()">Log Out</a>');
+      }
+      </script>
     </body>
     </html>
 
   <script src="auth-check.js"></script>
 </body>
 </html>
+
